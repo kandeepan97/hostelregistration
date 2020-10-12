@@ -10,20 +10,13 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Entity
 @Data
-@Table(name="warden")
-public class Warden {
+@Table(name="admin")
+public class Admin {
 
     @Id
-    private String wardenid;
+    private String adminId;
     private String email;
-    private Long mobileNumber;
-    private String firstName;
-    private String lastName;
-    private String hostelId;
     private String password;
 
 
-    public String getWARDENID() {
-        return wardenid;
-    }
 }

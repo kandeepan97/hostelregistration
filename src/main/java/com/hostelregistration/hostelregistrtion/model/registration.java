@@ -13,17 +13,16 @@ import java.time.Instant;
 @Entity
 @NoArgsConstructor
 @Table(name="registration")
-public class registration {
+public class Registration {
 
     @Id
-    private Long id;
-    private Instant registrationdate;
+    private String registrationId;
+    private String registrationDate;
+    private String hostelId;
+    private String roomId;
+    private String studentId;
 
-    @ManyToOne
-    private room room;
 
-    @OneToOne
-    private student student;
 
 
 }

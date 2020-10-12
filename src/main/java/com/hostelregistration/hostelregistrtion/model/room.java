@@ -17,14 +17,21 @@ import java.util.Set;
 @NoArgsConstructor
 @Data
 @Table(name="room")
-public class room {
+public class Room {
 
     @Id
-    private Long roomid;
-    private Long hostelid;
-    private Long noofbeds;
-    private Long noofstudentsnow;
-    private Long floorno;
+    private String roomid;
+    private String hostelId;
+    private Long numberOfBeds;
+    private Long numberOfStudentsNow;
+    private String floorNumber;
+    private String hostelType;
+
+
+    public String getROOMID() {
+        return roomid;
+    }
+
 
 
 }

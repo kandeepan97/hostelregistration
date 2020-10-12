@@ -1,6 +1,6 @@
 package com.hostelregistration.hostelregistrtion.model;
 
-
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -8,14 +8,15 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-@Entity
 @NoArgsConstructor
+@AllArgsConstructor
 @Data
-@Table(name="payment")
-public class Payment {
+@Entity
+@Table(name="role")
+public class Role {
 
     @Id
-    private String paymentId;
-    private Long price;
-    private String date;
+    private String roleId;
+    private String roleName;
+
 }

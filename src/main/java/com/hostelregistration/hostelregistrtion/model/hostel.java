@@ -10,12 +10,16 @@ import javax.persistence.*;
 @Entity
 @Data
 @Table(name="hostel")
-public class hostel {
+public class Hostel {
     @Id
-    private Long hostelid;
-    private String hostelname;
-    private Long noofrooms;
-    private Long idofincarge;
+    private String hostelid;
+    private String hostelName;
+    private Long numberOfRooms;
+    private String wardenId;
+    private String hostelType;
 
 
+    public String getHOSTELID() {
+        return hostelid;
+    }
 }
