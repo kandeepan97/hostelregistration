@@ -9,5 +9,6 @@ public interface StudentRepository extends JpaRepository <Student, String> {
     Student findByFirstName (String name);
     Student findByEmail (String email);
     Student getByStudentid (String studentid);
+    Student getByEmail (String email);
 
 }

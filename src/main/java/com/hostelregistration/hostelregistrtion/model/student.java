@@ -11,10 +11,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.util.Collection;
 
@@ -39,9 +36,9 @@ public class Student implements UserDetails {
     @NotEmpty()
     @NotBlank(message = "Address is required")
     private String address;
-    @NotBlank(message = "Mobile Number is required")
-    @Size(min=9,max=9, message = "Please Enter mobile Number without first Zero")
-    private Long mobileNumber;
+    @NotNull(message = "Mobile Number is required")
+    @Size(min=9, message = "Please Enter mobile Number without first Zero")
+    private String mobileNumber;
     @NotBlank(message = "Year is required")
     private String year;
     @NotBlank(message = "Faculty is required")
@@ -106,4 +103,22 @@ public class Student implements UserDetails {
     }
 
 
+    public String getStudentid() {
+        return studentid;
     }
+
+    public Object getFirstName() {
+        return firstName;
+    }
+
+    public Object getLastName() {
+        return lastName;
+    }
+    public Object getEmail(){
+        return email;
+    }
+
+    public String getConfirmPassword() {
+        return confirmPassword;
+    }
+}

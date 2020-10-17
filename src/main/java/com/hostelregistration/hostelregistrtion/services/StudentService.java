@@ -17,7 +17,7 @@ public class StudentService {
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     public Student saveStudent (Student newStudent){
-       // newStudent.setPassword(bCryptPasswordEncoder.encode(newStudent.getPassword()));
+        newStudent.setPassword(bCryptPasswordEncoder.encode(newStudent.getPassword()));
         return studentRepository.save(newStudent);
     }
 }

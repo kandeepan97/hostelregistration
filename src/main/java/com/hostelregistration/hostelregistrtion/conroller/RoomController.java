@@ -48,4 +48,10 @@ public class RoomController {
         return ResponseEntity.ok().body(result);
     }
 
+    @DeleteMapping("/room/{id}")
+    ResponseEntity<?> deleteRoom(@PathVariable String id){
+        roomRepository.deleteById(id);
+        return ResponseEntity.ok().build();
+    }
+
 }

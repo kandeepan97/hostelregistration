@@ -21,8 +21,11 @@ public class Registration {
     private String hostelId;
     private String roomId;
     private String studentId;
+    private String bedNumber;
+    private String paymentId;
 
 
-
-
+    public String getREGISTRATIONID() {
+        return registrationId;
+    }
 }

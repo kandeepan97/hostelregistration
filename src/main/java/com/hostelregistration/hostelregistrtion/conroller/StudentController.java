@@ -2,12 +2,20 @@ package com.hostelregistration.hostelregistrtion.conroller;
 
 
 import com.hostelregistration.hostelregistrtion.model.Student;
+import com.hostelregistration.hostelregistrtion.payload.JWTLoginSucessResponse;
+import com.hostelregistration.hostelregistrtion.payload.LoginRequst;
 import com.hostelregistration.hostelregistrtion.repository.StudentRepository;
+import com.hostelregistration.hostelregistrtion.security.JwtTokenProvider;
 import com.hostelregistration.hostelregistrtion.services.MapValidationErrorService;
 import com.hostelregistration.hostelregistrtion.services.StudentService;
+import com.hostelregistration.hostelregistrtion.validater.StudentValidater;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Repository;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -15,9 +23,12 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Email;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.*;
+
+import static com.hostelregistration.hostelregistrtion.security.SecurityConstants.TOKEN_PREFIX;
 
 @RestController
 @RequestMapping("/api")
@@ -33,7 +44,17 @@ public class StudentController {
     private MapValidationErrorService mapValidationErrorService;
 
     @Autowired
+    private StudentValidater studentValidater;
+
+    @Autowired
     private StudentService studentService;
+
+    @Autowired
+    private JwtTokenProvider tokenProvider;
+
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
 
     @GetMapping("/students")
     Collection<Student> students(){
@@ -63,9 +84,12 @@ public class StudentController {
 
     @PostMapping("/register")
     public ResponseEntity<?> registerStudent(@Valid @RequestBody Student student,BindingResult result){
+
+        studentValidater.validate(student,result);
+
         System.out.println(result.hasErrors());
 
-        if (result.hasErrors()) {
+       /* if (result.hasErrors()) {
 
             List<String> errors = new ArrayList<String>();
             for (ObjectError res : result.getFieldErrors()) {
@@ -79,7 +103,31 @@ public class StudentController {
 
         Student newStudent = studentService.saveStudent(student);
 
-        return new ResponseEntity<Student>(newStudent, HttpStatus.CREATED);
+        return new ResponseEntity<Student>(newStudent, HttpStatus.CREATED); */
+
+        ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(result);
+        if(errorMap != null)return errorMap;
+
+        Student newStudent = studentService.saveStudent(student);
+
+        return  new ResponseEntity<Student>(newStudent, HttpStatus.CREATED);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> authenticateStudent(@Valid @RequestBody LoginRequst loginRequst, BindingResult result){
+        ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(result);
+         if (errorMap != null ) return errorMap;
+
+        Authentication authentication  = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        loginRequst.getEmail(),
+                        loginRequst.getPassword()
+                )
+        );
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        String jwt = TOKEN_PREFIX + tokenProvider.generateTokenStudent(authentication);
+
+        return ResponseEntity.ok(new JWTLoginSucessResponse(true,jwt));
     }
 
     }

@@ -1,9 +1,9 @@
 package com.hostelregistration.hostelregistrtion.services;
 
-
 import com.hostelregistration.hostelregistrtion.model.Student;
+import com.hostelregistration.hostelregistrtion.model.Warden;
 import com.hostelregistration.hostelregistrtion.repository.StudentRepository;
-import org.apache.naming.factory.SendMailFactory;
+import com.hostelregistration.hostelregistrtion.repository.WardenRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -12,23 +12,22 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-public class CustomStudentDetailService implements UserDetailsService {
-
+public class CustomWardenDetailService implements UserDetailsService {
     @Autowired
-    private StudentRepository studentRepository;
+    private WardenRepository wardenRepository;
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        Student student = studentRepository.findByEmail(email);
-        if (student == null) new UsernameNotFoundException("user not found");
-       return student;
+        Warden warden = wardenRepository.findByEmail(email);
+        if (warden == null) new UsernameNotFoundException("user not found");
+        return warden;
 
     }
 
-     @Transactional
-             public Student loadUserByStudentid(String studentid){
-         Student student = studentRepository.getByStudentid(studentid);
-         if (student == null) new UsernameNotFoundException("user not found");
-         return student;
+    @Transactional
+    public Warden loadUserByWardenid(String wardenid){
+        Warden warden = wardenRepository.getByWardenid(wardenid);
+        if (warden == null) new UsernameNotFoundException("user not found");
+        return warden;
     }
 }
